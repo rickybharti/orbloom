@@ -49,7 +49,7 @@
     "test:performance": "node test/performance-budget.mjs",
     "test:package": "node test/package-consumer.mjs",
     "test:managers": "node test/package-managers.mjs",
-    "test:publish": "npm publish --dry-run",
+    "test:pack": "npm run test:release && npm pack --dry-run --ignore-scripts",
     "test:versions": "node test/version-matrix.mjs",
     "lint:package": "node test/run-package-lint.mjs publint",
     "lint:types": "node test/run-package-lint.mjs types",

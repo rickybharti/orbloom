@@ -3,6 +3,8 @@ name: Package verification
 on:
   pull_request:
   push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -44,7 +46,7 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm audit --audit-level=low
       - run: npm audit signatures
-      - run: npm run test:publish
+      - run: npm run test:pack
 
   package-managers:
     name: npm, pnpm, and Yarn consumers
