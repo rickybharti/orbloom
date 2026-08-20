@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Interactive showcase for the Orbloom voice-reactive orb." />
+    <title>Orbloom Showcase</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/examples/" aria-label="Orbloom showcase">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Orbloom</span>
+      </a>
+      <nav class="topbar-links" aria-label="Demo pages">
+        <a href="/examples/benchmark/">Performance</a>
+        <a class="is-current" href="/examples/" aria-current="page">Showcase</a>
+      </nav>
+    </header>
+
+    <main class="showcase-layout">
+      <section class="preview-column" aria-label="Live orb preview">
+        <div class="preview-heading">
+          <div>
+            <p class="eyebrow">Live package preview</p>
+            <h1>Shape the signal.</h1>
+          </div>
+          <div class="preview-actions">
+            <span class="webgl-status" id="webgl-status">Starting renderer</span>
+            <button class="button button-quiet playback-button" id="playback-button" type="button" aria-pressed="false">Pause</button>
+          </div>
+        </div>
+
+        <div class="preview-stage" id="preview-stage" data-background="midnight" data-motion-setting="system">
+          <div class="stage-grid" aria-hidden="true"></div>
+          <div class="orb-motion" id="showcase-orb-motion" data-ambient-motion="true">
+            <div class="orb-shell">
+              <div class="orb-clip">
+                <canvas class="orb-canvas" id="showcase-orb" aria-label="Animated audio-reactive orb"></canvas>
+                <div class="orb-fallback" aria-hidden="true"></div>
+              </div>
+              <div class="orb-chrome" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="stage-vignette" aria-hidden="true"></div>
+        </div>
+
+        <div class="signal-bar" aria-label="Current audio response">
+          <div class="signal-labels">
+            <span>Input signal</span>
+            <output id="signal-value">0%</output>
+          </div>
+          <div class="signal-track" aria-hidden="true">
+            <span id="signal-fill"></span>
+          </div>
+        </div>
+
+        <p class="preview-note">
+          This page imports the same public entry point and stylesheet that package consumers receive.
+        </p>
+      </section>
+
+      <aside class="controls-column" aria-label="Orb controls">
+        <div class="controls-header">
+          <div>
+            <p class="eyebrow">Controls</p>
+            <h2>Customize the orb</h2>
+          </div>
+          <button class="button button-quiet" id="reset-controls" type="button">Reset</button>
+        </div>
+
+        <form id="showcase-controls">
+          <section class="control-section" aria-labelledby="foundation-title">
+            <div class="section-heading">
+              <h3 id="foundation-title">Foundation</h3>
+              <p>Choose the visual family and runtime state.</p>
+            </div>
+
+            <label class="field field-wide">
+              <span>Preset</span>
+              <select id="preset" name="preset"></select>
+            </label>
+
+            <fieldset class="field field-wide">
+              <legend>State</legend>
+              <div class="segment-grid" id="state-controls"></div>
+            </fieldset>
+
+            <label class="field">
+              <span>Quality</span>
+              <select id="quality" name="quality">
+                <option value="low">Low · 30 fps</option>
+                <option value="balanced">Balanced · 45 fps</option>
+                <option value="high" selected>High · 60 fps</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Motion preference</span>
+              <select id="motion-preference" name="motion-preference">
+                <option value="system">Follow system</option>
+                <option value="reduced">Reduced</option>
+                <option value="full">Full motion</option>
+              </select>
+            </label>
+          </section>
+
+          <section class="control-section" aria-labelledby="color-title">
+            <div class="section-heading">
+              <h3 id="color-title">Color</h3>
+              <p>Brand the atmosphere without changing its structure.</p>
+            </div>
+
+            <div class="color-grid">
+              <label class="color-field">
+                <span>Base</span>
+                <input id="base-color" name="base-color" type="color" />
+              </label>
+              <label class="color-field">
+                <span>Interior</span>
+                <input id="interior-color" name="interior-color" type="color" />
+              </label>
+              <label class="color-field">
+                <span>Accent 1</span>
+                <input id="accent-1" name="accent-1" type="color" />
+              </label>
+              <label class="color-field">
+                <span>Accent 2</span>
+                <input id="accent-2" name="accent-2" type="color" />
+              </label>
+              <label class="color-field">
+                <span>Accent 3</span>
+                <input id="accent-3" name="accent-3" type="color" />
+              </label>
+            </div>
+          </section>
+
+          <section class="control-section" aria-labelledby="appearance-title">
+            <div class="section-heading">
+              <h3 id="appearance-title">Appearance</h3>
+              <p>Adjust visual weight while preserving the renderer.</p>
+            </div>
+
+            <label class="range-field">
+              <span>Intensity <output for="intensity" id="intensity-output"></output></span>
+              <input id="intensity" name="intensity" type="range" min="0.25" max="2" step="0.05" aria-label="Intensity" />
+            </label>
+            <label class="range-field">
+              <span>Detail <output for="detail" id="detail-output"></output></span>
+              <input id="detail" name="detail" type="range" min="0" max="1" step="0.05" aria-label="Detail" />
+            </label>
+            <label class="range-field">
+              <span>Glass <output for="glass" id="glass-output"></output></span>
+              <input id="glass" name="glass" type="range" min="0" max="1" step="0.05" aria-label="Glass" />
+            </label>
+            <label class="range-field">
+              <span>Glow <output for="glow" id="glow-output"></output></span>
+              <input id="glow" name="glow" type="range" min="0" max="2" step="0.05" aria-label="Glow" />
+            </label>
+            <label class="range-field">
+              <span>Seed <output for="seed" id="seed-output"></output></span>
+              <input id="seed" name="seed" type="range" min="0" max="6.283" step="0.001" aria-label="Seed" />
+            </label>
+          </section>
+
+          <section class="control-section" aria-labelledby="motion-title">
+            <div class="section-heading">
+              <h3 id="motion-title">Motion</h3>
+              <p>Tune the internal rhythm independently from the voice.</p>
+            </div>
+
+            <label class="range-field">
+              <span>Speed <output for="speed" id="speed-output"></output></span>
+              <input id="speed" name="speed" type="range" min="0" max="2" step="0.05" aria-label="Speed" />
+            </label>
+            <label class="range-field">
+              <span>Drift <output for="drift" id="drift-output"></output></span>
+              <input id="drift" name="drift" type="range" min="0" max="2" step="0.05" aria-label="Drift" />
+            </label>
+          </section>
+
+          <section class="control-section" aria-labelledby="audio-title">
+            <div class="section-heading">
+              <h3 id="audio-title">Audio response</h3>
+              <p>Set how a normalized voice signal changes the existing orb.</p>
+            </div>
+
+            <label class="range-field">
+              <span>Brightness <output for="audio-brightness" id="audio-brightness-output"></output></span>
+              <input id="audio-brightness" name="audio-brightness" type="range" min="0" max="2" step="0.05" aria-label="Audio brightness" />
+            </label>
+            <label class="range-field">
+              <span>Motion <output for="audio-motion" id="audio-motion-output"></output></span>
+              <input id="audio-motion" name="audio-motion" type="range" min="0" max="2" step="0.05" aria-label="Audio motion" />
+            </label>
+            <label class="range-field">
+              <span>Pulse <output for="audio-pulse" id="audio-pulse-output"></output></span>
+              <input id="audio-pulse" name="audio-pulse" type="range" min="0" max="2" step="0.05" aria-label="Audio pulse" />
+            </label>
+            <label class="range-field manual-signal">
+              <span>Manual signal <output for="manual-audio" id="manual-audio-output">0%</output></span>
+              <input id="manual-audio" name="manual-audio" type="range" min="0" max="1" step="0.01" value="0" aria-label="Manual audio signal" />
+            </label>
+
+            <div class="audio-actions field-wide">
+              <button class="button button-primary" id="microphone-button" type="button">Use microphone</button>
+              <button class="button" id="audio-file-button" type="button">Choose audio file</button>
+              <input id="audio-file" type="file" accept="audio/*" hidden />
+              <audio id="audio-preview" hidden></audio>
+            </div>
+            <p class="inline-status field-wide" id="audio-status" role="status" aria-live="polite">Manual input is ready.</p>
+          </section>
+
+          <section class="control-section" aria-labelledby="layout-title">
+            <div class="section-heading">
+              <h3 id="layout-title">Page placement</h3>
+              <p>Preview CSS and layout choices outside the shader theme.</p>
+            </div>
+
+            <label class="field">
+              <span>Background</span>
+              <select id="background" name="background">
+                <option value="midnight">Midnight</option>
+                <option value="slate">Slate</option>
+                <option value="light">Light</option>
+                <option value="gradient">Brand gradient</option>
+                <option value="checker">Transparency grid</option>
+              </select>
+            </label>
+
+            <label class="range-field">
+              <span>Diameter <output for="diameter" id="diameter-output"></output></span>
+              <input id="diameter" name="diameter" type="range" min="160" max="520" step="4" aria-label="Diameter" />
+            </label>
+            <label class="range-field">
+              <span>Shell blur <output for="shell-blur" id="shell-blur-output"></output></span>
+              <input id="shell-blur" name="shell-blur" type="range" min="0" max="36" step="0.1" aria-label="Shell blur" />
+            </label>
+
+            <label class="toggle-field field-wide">
+              <span>
+                <strong>Ambient float</strong>
+                <small>CSS wrapper motion from the selected preset</small>
+              </span>
+              <input id="ambient-float" name="ambient-float" type="checkbox" />
+            </label>
+            <label class="range-field">
+              <span>Float distance <output for="float-distance" id="float-distance-output"></output></span>
+              <input id="float-distance" name="float-distance" type="range" min="0" max="20" step="1" aria-label="Float distance" />
+            </label>
+            <label class="range-field">
+              <span>Float scale <output for="float-scale" id="float-scale-output"></output></span>
+              <input id="float-scale" name="float-scale" type="range" min="1" max="1.08" step="0.005" aria-label="Float scale" />
+            </label>
+            <label class="range-field">
+              <span>Float duration <output for="float-duration" id="float-duration-output"></output></span>
+              <input id="float-duration" name="float-duration" type="range" min="3" max="15" step="0.5" aria-label="Float duration" />
+            </label>
+          </section>
+
+          <section class="control-section config-section" aria-labelledby="config-title">
+            <div class="section-heading config-heading">
+              <div>
+                <h3 id="config-title">Generated configuration</h3>
+                <p>Copy the public options represented above.</p>
+              </div>
+              <button class="button button-quiet" id="copy-config" type="button">Copy</button>
+            </div>
+            <pre id="config-output" tabindex="0"></pre>
+          </section>
+        </form>
+      </aside>
+    </main>
+
+    <script type="module" src="/examples/showcase.js"></script>
+  </body>
+</html>

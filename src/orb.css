@@ -1,0 +1,131 @@
+.orb-motion {
+  --orb-diameter: 264px;
+  --orb-shell-blur: 15.8px;
+  position: relative;
+  width: var(--orb-diameter);
+  height: var(--orb-diameter);
+  contain: layout paint style;
+}
+
+.orb-motion[data-ambient-motion="true"] {
+  animation: orb-ambient-motion var(--orb-motion-duration, 7s) ease-in-out var(--orb-motion-delay, 0s) infinite;
+  will-change: transform;
+}
+
+.orb-shell,
+.orb-clip,
+.orb-canvas,
+.orb-fallback,
+.orb-chrome {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.orb-shell {
+  position: relative;
+}
+
+.orb-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  -webkit-clip-path: circle(50% at 50% 50%);
+  mask-image: radial-gradient(closest-side, #000 calc(100% - 0.5px), transparent);
+  -webkit-mask-image: radial-gradient(closest-side, #000 calc(100% - 0.5px), transparent);
+}
+
+.orb-canvas {
+  position: relative;
+  z-index: 1;
+  clip-path: circle(50% at 50% 50%);
+  -webkit-clip-path: circle(50% at 50% 50%);
+}
+
+.orb-fallback {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 62% 42%, rgba(240, 245, 255, 0.75) 0 1px, transparent 4px),
+    radial-gradient(circle at 40% 52%, rgba(255, 255, 255, 0.8) 0 1px, transparent 5px),
+    radial-gradient(ellipse at 58% 62%, rgba(156, 178, 106, 0.5), transparent 23%),
+    radial-gradient(ellipse at 42% 32%, rgba(58, 92, 169, 0.48), transparent 22%),
+    radial-gradient(circle, #07100e 0 72%, rgba(154, 168, 157, 0.75) 97%, transparent 100%);
+}
+
+.orb-chrome {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.35;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+    inset 0 0 var(--orb-shell-blur) rgba(255, 255, 255, 0.18);
+}
+
+.orb-no-webgl .orb-canvas {
+  display: none;
+}
+
+.orb-no-webgl .orb-fallback {
+  opacity: 1;
+}
+
+.orb-motion[data-entrance="true"] {
+  animation-name: orb-entrance, orb-ambient-motion;
+  animation-duration: 600ms, var(--orb-motion-duration, 7s);
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1), ease-in-out;
+  animation-delay: var(--orb-entrance-delay, 0s), var(--orb-motion-delay, 0s);
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: backwards, none;
+}
+
+.orb-motion[data-playback-state="paused"] {
+  animation-play-state: paused;
+}
+
+@keyframes orb-ambient-motion {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(var(--orb-motion-distance, -8px)) scale(var(--orb-motion-scale, 1));
+  }
+}
+
+@keyframes orb-entrance {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-motion,
+  .orb-motion[data-ambient-motion="true"],
+  .orb-motion[data-entrance="true"] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .orb-shell {
+    border-radius: 50%;
+    outline: 1px solid CanvasText;
+  }
+}

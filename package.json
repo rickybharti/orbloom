@@ -1,0 +1,95 @@
+{
+  "name": "orbloom",
+  "version": "0.1.0",
+  "description": "A living, voice-reactive orb for the web.",
+  "type": "module",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./styles.css": {
+      "types": "./src/styles.d.css.ts",
+      "default": "./src/orb.css"
+    },
+    "./worker": {
+      "types": "./src/worker.d.ts",
+      "default": "./src/orb-worker.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src/audio-calibration.js",
+    "src/audio.js",
+    "src/controller.js",
+    "src/customization.js",
+    "src/index.d.ts",
+    "src/index.js",
+    "src/motion.js",
+    "src/orb-engine.js",
+    "src/orb-worker.js",
+    "src/orb.css",
+    "src/presets.js",
+    "src/shaders.js",
+    "src/styles.d.css.ts",
+    "src/worker.d.ts",
+    "README.md"
+  ],
+  "sideEffects": [
+    "./src/orb.css",
+    "./src/orb-worker.js"
+  ],
+  "scripts": {
+    "test": "npm run test:unit && npm run test:stress",
+    "test:unit": "node --test test/*.test.mjs",
+    "test:stress": "node test/stress.mjs",
+    "test:audio": "node --test test/audio-calibration.test.mjs",
+    "test:performance": "node test/performance-budget.mjs",
+    "test:package": "node test/package-consumer.mjs",
+    "test:managers": "node test/package-managers.mjs",
+    "test:publish": "npm publish --dry-run",
+    "test:versions": "node test/version-matrix.mjs",
+    "lint:package": "node test/run-package-lint.mjs publint",
+    "lint:types": "node test/run-package-lint.mjs types",
+    "test:release": "npm test && npm run test:performance && npm run build && npm run lint:package && npm run lint:types && npm run test:package",
+    "verify": "npm run test:release && npm run test:managers",
+    "prepublishOnly": "npm run test:release",
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@fontsource-variable/inter": "^5.3.0",
+    "publint": "^0.3.23",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "keywords": [
+    "audio-reactive",
+    "canvas",
+    "creative-coding",
+    "generative-art",
+    "orb",
+    "voice",
+    "webgl"
+  ],
+  "author": "Ricky Bharti",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rickybharti/orbloom.git"
+  },
+  "homepage": "https://github.com/rickybharti/orbloom#readme",
+  "bugs": {
+    "url": "https://github.com/rickybharti/orbloom/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

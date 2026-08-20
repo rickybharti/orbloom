@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="Orbloom browser performance benchmark." />
+    <title>Orbloom Performance Lab</title>
+  </head>
+  <body>
+    <header class="lab-header">
+      <a href="/examples/" class="brand">Orbloom</a>
+      <nav aria-label="Demo pages">
+        <a href="/examples/">Showcase</a>
+        <a href="/examples/benchmark/" aria-current="page">Performance</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="eyebrow">Real-device diagnostics</p>
+        <h1>Performance lab</h1>
+        <p>
+          Measures actual rendered-frame pacing, CPU submission and canvas-copy time,
+          long animation frames, and GPU time when the WebGL timer-query extension is available.
+        </p>
+        <div class="actions">
+          <button id="run-benchmark" type="button">Run benchmark</button>
+          <span id="benchmark-status" role="status" aria-live="polite">Ready · approximately 18 seconds</span>
+        </div>
+      </section>
+
+      <section class="benchmark-grid">
+        <div class="preview-card">
+          <div class="preview-meta">
+            <span id="scenario-name">Waiting to start</span>
+            <span id="scenario-progress">0 / 4</span>
+          </div>
+          <div class="orb-stage">
+            <div class="orb-motion" id="benchmark-orb-motion" data-ambient-motion="false">
+              <div class="orb-shell">
+                <div class="orb-clip">
+                  <canvas id="benchmark-orb" class="orb-canvas" aria-label="Orb under performance test"></canvas>
+                  <div class="orb-fallback" aria-hidden="true"></div>
+                </div>
+                <div class="orb-chrome" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+          <dl class="environment" id="environment"></dl>
+        </div>
+
+        <div class="results-card">
+          <div class="results-heading">
+            <div>
+              <p class="eyebrow">Measured results</p>
+              <h2>Scenarios</h2>
+            </div>
+            <span class="result-badge" id="overall-result">Not run</span>
+          </div>
+          <div class="empty-results" id="empty-results">
+            Results are measured in this browser. Keep the tab visible and avoid switching applications while the benchmark runs.
+          </div>
+          <div class="result-list" id="result-list"></div>
+          <pre id="benchmark-json" hidden></pre>
+        </div>
+      </section>
+
+      <section class="method-card">
+        <h2>What the numbers mean</h2>
+        <div class="method-grid">
+          <article>
+            <h3>Frame pacing</h3>
+            <p>Counts calls that actually render, then reports effective FPS and the slowest five percent of frame intervals.</p>
+          </article>
+          <article>
+            <h3>CPU frame cost</h3>
+            <p>Times the renderer’s JavaScript, WebGL command submission, and copy into the visible transparent canvas.</p>
+          </article>
+          <article>
+            <h3>GPU frame cost</h3>
+            <p>Uses asynchronous disjoint timer queries. Unsupported browsers report unavailable instead of guessing.</p>
+          </article>
+          <article>
+            <h3>Long frames</h3>
+            <p>Combines measured intervals with the browser’s Long Animation Frames API when that API is exposed.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/examples/benchmark/benchmark.js"></script>
+  </body>
+</html>
