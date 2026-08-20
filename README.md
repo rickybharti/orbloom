@@ -380,7 +380,7 @@ The release gate runs unit, synthetic audio, randomized stress, performance-floo
 
 ```bash
 npm run test:versions
-npm run test:publish
+npm run test:pack
 npm audit --audit-level=low
 npm audit signatures
 ```
